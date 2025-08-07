@@ -2,29 +2,24 @@
 // https://leetcode.com/problems/longest-common-prefix/
 
 function longestCommonPrefix(strs: string[]): string {
+  let results = "";
 
-  let results = ""
+  for (let i = 0; i < strs[0].length; i++) {
+    const currentLetterInFirstWord = strs[0][i];
 
+    for (let j = 0; j < strs.length; j++) {
+      const currentLetter = strs[j][i];
 
-  for(let i = 0; i < strs.length; i++){
-
-    const currentWord = strs[i]
-    const currentLetter = currentWord[i]
-
-    
-
-
-    if (strs.every((str) => str[i] === currentLetter)) {
-      results += currentLetter
+      if (currentLetterInFirstWord !== currentLetter) {
+        return results;
+      }
     }
 
+    results += currentLetterInFirstWord;
   }
-
   return results
- 
-
 }
 
-const strs = ["neet", "feet"];
+const strs = ["ney", "nep"];
 
 console.log(longestCommonPrefix(strs));
