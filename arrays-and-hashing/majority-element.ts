@@ -3,8 +3,8 @@
 
 function majorityElement(nums: number[]): number {
   const container: { [key: number]: number } = {};
-  let mostCommonNumber = 0;
-  let highestCount = 0;
+  let mostCommonNumber: number = 0;
+  let highestCount: number = 0;
 
   for (let i = 0; i < nums.length; i++) {
     if (container[nums[i]] === undefined) {
