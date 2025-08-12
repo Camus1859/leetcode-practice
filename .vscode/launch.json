@@ -1,24 +1,26 @@
-// {
-//   "version": "0.2.0",
-//   "configurations": [
-//     {
-//       "name": "Debug Current File",
-//       "type": "node",
-//       "request": "launch",
-//       "runtimeExecutable": "npx",
-//       "runtimeArgs": [
-//         "ts-node",
-//         "${file}"
-//       ],
-//       "skipFiles": [
-//         "<node_internals>/**"
-//       ],
-//       "console": "integratedTerminal",
-//       "env": {
-//         "TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json"
-//       },
-//       "cwd": "${workspaceFolder}",
-//       "sourceMaps": true
-//     }
-//   ]
-// }
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Current File",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/ts-node/dist/bin.js",
+      "args": [
+        "${file}"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "console": "integratedTerminal",
+      "env": {
+        "TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json"
+      },
+      "cwd": "${workspaceFolder}",
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ]
+    }
+  ]
+}
