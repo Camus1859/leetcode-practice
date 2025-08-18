@@ -1,21 +1,23 @@
 // Remove Duplicates from Sorted Array
 // https://leetcode.com/problems/remove-duplicates-from-sorted-array/
 
-const removeDuplicates = (nums: number[]): number => {
-  let leftPos = 1;
-  let rightPos = 1;
-  let k = 1;
-  for (let i = 0; i < nums.length; i++) {
-    if (rightPos < nums.length && nums[rightPos] !== nums[rightPos - 1]) {
-      nums[leftPos] = nums[rightPos];
-      leftPos++;
-      k++;
+function removeDuplicates(nums: number[]): number {
+  let leftPosToInsert = 1;
+  let counter = 0;
+
+  for (let uniqueNum = 1; uniqueNum <= nums.length; uniqueNum++) {
+    if (nums[uniqueNum - 1] !== nums[uniqueNum]) {
+      nums[leftPosToInsert] = nums[uniqueNum];
+      leftPosToInsert++;
+      counter++;
     }
-    rightPos++;
   }
-  return k;
-};
+  return counter;
+}
 
-const nums2 = [2, 10, 10, 30, 30, 30, 50];
+// Test cases
+const nums1 = [1, 1, 2];
+console.log(removeDuplicates(nums1)); // Expected: 2, nums = [1, 2, _]
 
-console.log(removeDuplicates(nums2)); // Expected: 3
+const nums2 = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4];
+console.log(removeDuplicates(nums2)); // Expected: 5, nums = [0, 1, 2, 3, 4, _, _, _, _, _]
