@@ -31,5 +31,5 @@ function swapPairs(head: ListNode | null): ListNode | null {
 }
 
 // Test case
-const head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
-console.log(swapPairs(head)); // Expected: [2,1,4,3]
+const head = new ListNode(12, new ListNode(20, new ListNode(30, new ListNode(60))));
+console.log(swapPairs(head)); // Expected: [20,12,60,30]
