@@ -17,3 +17,5 @@ function hasDuplicate(nums: number[]): boolean {
       return false;
   
 }
+
+//  use new Set since I dont care for the value in the key value relationship
