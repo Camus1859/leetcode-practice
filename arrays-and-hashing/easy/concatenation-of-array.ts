@@ -2,19 +2,21 @@
 // https://leetcode.com/problems/concatenation-of-array/
 
 function getConcatenation(nums: number[]): number[] {
-  const ans = [];
 
-  for (let j = 0; j <= 1; j++) {
-    for (let i = 0; i < nums.length; i++) {
-      const currentNumber = nums[i];
+const length = nums.length
 
-      ans.push(currentNumber);
-    }
-  }
+const arrAns = new Array(length * 2)
 
-  return ans;
+for(let i = 0; i < length; i++){
+
+  arrAns[i] = nums[i]
+  arrAns[i + length] = nums[i]
+
 }
 
-const nums = [1, 4, 1, 2];
+return arrAns
 
-console.log(getConcatenation(nums));
+  
+}
+
+console.log(getConcatenation([1, 5, 10, 20]));
