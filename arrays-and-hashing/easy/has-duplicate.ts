@@ -2,21 +2,18 @@
 // https://leetcode.com/problems/contains-duplicate/
 
 function hasDuplicate(nums: number[]): boolean {
-  for (let i = 0; i < nums.length; i++) {
-    const outerLoopCurrentNumber = nums[i];
 
-    for (let j = 0; j < nums.length; j++) {
-      const innerLoopCurrentNumber = nums[j];
+      const container = new Map<number, number>();
 
-      if (outerLoopCurrentNumber === innerLoopCurrentNumber && i !== j) {
-        return true;
+      for (let i = 0; i < nums.length; i++) {
+        const currentValue = nums[i];
+
+        if (container.has(currentValue)) {
+          return true;
+        } else {
+          container.set(currentValue, i);
+        }
       }
-    }
-  }
-
-  return false;
+      return false;
+  
 }
-
-const numss = [1, 2, 3, 1];
-
-console.log(hasDuplicate(numss));
