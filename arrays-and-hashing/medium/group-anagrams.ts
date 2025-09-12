@@ -2,31 +2,27 @@
 // https://leetcode.com/problems/group-anagrams/
 
 function groupAnagrams(strs: string[]): string[][] {
+  const res: { [key: string]: string[] } = {};
 
-  const sortedStrAsKey: { [key: string]: string[] } = {};
-  const outerArr: string[][] = [];
+  for (const word of strs) {
+    const sortedWord = word.split("").sort().join("");
 
-  for (let i = 0; i < strs.length; i++) {
-    const sortedStr = strs[i].split("").sort().join(""); 
-
-    if (sortedStrAsKey[sortedStr] === undefined) {
-      sortedStrAsKey[sortedStr] = [];
-      sortedStrAsKey[sortedStr].push(strs[i]);
+    if (res[sortedWord] === undefined) {
+      res[sortedWord] = [word];
     } else {
-      sortedStrAsKey[sortedStr].push(strs[i]);
+      res[sortedWord].push(word);
     }
   }
 
-  for (let key in sortedStrAsKey) {
-    outerArr.push(sortedStrAsKey[key]);
-  }
-
-  return outerArr;
+  return Object.values(res);
 }
 
 // Test cases
-const strs1 = ["eat", "tea", "tan", "ate", "nat", "bat"];
+console.log(groupAnagrams(["act", "pots", "tops", "cat", "stop", "hat"]));
+// Expected: [["bat"],["nat","tan"],["ate","eat","tea"]]
 
-// [["bat"],["nat","tan"],["ate","eat","tea"]]
+console.log(groupAnagrams([""]));
+// Expected: [[""]]
 
-console.log(groupAnagrams(strs1));
+console.log(groupAnagrams(["a"]));
+// Expected: [["a"]]
