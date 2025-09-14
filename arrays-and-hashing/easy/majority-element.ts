@@ -2,24 +2,27 @@
 // https://leetcode.com/problems/majority-element/
 
 function majorityElement(nums: number[]): number {
-  const container: { [key: number]: number } = {};
-  let majorityElement = 0;
+  let largestNumber = 0;
+  let num = 0;
 
-  for (let i = 0; i < nums.length; i++) {
-    if (container[nums[i]] !== undefined) {
-      container[nums[i]] += 1;
+  const container: { [key: string]: number } = {};
+
+  for (let number of nums) {
+    if (container[number] !== undefined) {
+      container[number] += 1;
     } else {
-      container[nums[i]] = 1;
+      container[number] = 1;
     }
   }
 
   for (let key in container) {
-  if (container[key] > (container[majorityElement] ?? 0)) {
-    majorityElement = Number(key)
-  }
+    if (container[key] > largestNumber) {
+      largestNumber = container[key];
+      num = Number(key);
+    }
   }
 
-  return majorityElement
+  return num;
 }
 
 // Test cases
