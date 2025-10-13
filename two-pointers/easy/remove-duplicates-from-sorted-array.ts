@@ -2,16 +2,21 @@
 // https://leetcode.com/problems/remove-duplicates-from-sorted-array/
 
 function removeDuplicates(nums: number[]): number {
-  let leftPosToInsert = 1;
+  let left = 0;
+  let right = 1;
   let counter = 0;
 
-  for (let uniqueNum = 1; uniqueNum <= nums.length; uniqueNum++) {
-    if (nums[uniqueNum - 1] !== nums[uniqueNum]) {
-      nums[leftPosToInsert] = nums[uniqueNum];
-      leftPosToInsert++;
+  while (right <= nums.length) {
+    if (nums[left] === nums[right]) {
+      right++;
+    } else {
+      left++;
+      nums[left] = nums[right];
+      right++;
       counter++;
     }
   }
+
   return counter;
 }
 
