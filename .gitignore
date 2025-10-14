@@ -6,3 +6,5 @@ dist/
 
 # Hide all markdown files
 *.md
+*.mdmastery-solutions/
+*mastery-solutions
