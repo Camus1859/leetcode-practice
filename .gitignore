@@ -6,5 +6,10 @@ dist/
 
 # Hide all markdown files
 *.md
-*.mdmastery-solutions/
+
+# Hide mastery solutions
+mastery-solutions/
 *mastery-solutions
+
+# Hide data drills folder
+data-drills/
