@@ -6,6 +6,7 @@ dist/
 
 # Hide all markdown files
 *.md
+*-REVIEW.ts
 
 # Hide mastery solutions
 mastery-solutions/
