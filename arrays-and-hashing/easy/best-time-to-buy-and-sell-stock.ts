@@ -2,16 +2,23 @@
 // https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 
 function maxProfit(prices: number[]): number {
-  let maximumProfit = 0;
 
-  for (let i = 0; i < prices.length; i++) {
-    for (let j = 1; j < prices.length; j++) {
-      if ( i < j && prices[j] - prices[i] > maximumProfit) {
-        maximumProfit = prices[j] - prices[i];
+    let maxProfit = 0;
+    let lowestBuyPrice = Infinity;
+
+    for (let i = 0; i < prices.length; i++) {
+      const currentPrice = prices[i];
+
+      if (currentPrice < lowestBuyPrice) {
+        lowestBuyPrice = currentPrice;
+      }
+
+      if (currentPrice - lowestBuyPrice > maxProfit) {
+        maxProfit = currentPrice - lowestBuyPrice;
       }
     }
-  }
-  return maximumProfit;
+    return maxProfit;
+
 }
 // const prices1 = [2, 1, 4];
 // console.log(maxProfit(prices1)); // Expected:
