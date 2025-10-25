@@ -2,34 +2,19 @@
 // https://leetcode.com/problems/intersection-of-two-arrays-ii/
 
 function intersect(nums1: number[], nums2: number[]): number[] {
-  const nums1Map: Map<number, number> = new Map();
-  const nums2Map: Map<number, number> = new Map();
+  const arrMap: Map<number, number> = new Map();
   const res: number[] = [];
 
   for (const num1 of nums1) {
-    if (!nums1Map.has(num1)) {
-      nums1Map.set(num1, 1);
-    } else {
-      const current = nums1Map.get(num1)!;
-      nums1Map.set(num1, current + 1);
-    }
+    arrMap.set(num1, (arrMap.get(num1) || 0) + 1);
   }
 
   for (const num2 of nums2) {
-    if (!nums2Map.has(num2)) {
-      nums2Map.set(num2, 1);
-    } else {
-      const current = nums2Map.get(num2)!;
-      nums2Map.set(num2, current + 1);
+    if (arrMap.get(num2)! > 0) {
+      res.push(num2);
+      arrMap.set(num2, (arrMap.get(num2) || 0) - 1);
     }
   }
-
-  for (const num1 of nums1) {
-    if (nums1Map.get(num1) === nums2Map.get(num1)) {
-      res.push(num1);
-    }
-  }
-
   return res;
 }
 
