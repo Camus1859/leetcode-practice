@@ -1,32 +1,41 @@
 // https://leetcode.com/problems/valid-sudoku/description/
 
 function isValidSudoku(board: string[][]): boolean {
-  let rowsSet: { [key: number]: Set<string> } = {};
-  let colsSet: { [key: number]: Set<string> } = {};
-  let boxSet: { [key: string]: Set<string> } = {};
+  for (let row = 0; row < 9; row++) {
+    const rowSet: Set<string> = new Set();
 
-  for (let r = 0; r < board.length; r++) {
-    for (let c = 0; c < board[0].length; c++) {
-      if (board[r][c] === ".") {
-        continue;
-      }
-      const valToCheck = board[r][c];
+    for (let col = 0; col < 9; col++) {
+      const cell = board[row][col];
+      if (cell === ".") continue;
+      if (rowSet.has(cell)) return false;
+      rowSet.add(cell);
+    }
+  }
 
-      const boxKey =
-        Math.floor(r / 3).toString() + Math.floor(c / 3).toString();
+  for (let col = 0; col < 9; col++) {
+    const colSet: Set<string> = new Set();
+    for (let row = 0; row < 9; row++) {
+      const cell = board[row][col];
+      if (cell === ".") continue;
+      if (colSet.has(cell)) return false;
+      colSet.add(cell);
+    }
+  }
 
-      if (
-        rowsSet[r]?.has(valToCheck) ||
-        colsSet[c]?.has(valToCheck) ||
-        boxSet[boxKey]?.has(valToCheck)
-      ) {
-        return false;
-      }
+  const boxSet: Set<string>[] = [];
+  for (let i = 0; i < 9; i++) {
+    boxSet.push(new Set());
+  }
 
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      const cell = board[row][col];
+      if (cell === ".") continue;
 
-      rowsSet[r].add(valToCheck);
-      colsSet[c].add(valToCheck);
-      boxSet[boxKey].add(valToCheck);
+      const boxIndex = Math.floor(row / 3) * 3 + Math.floor(col / 3);
+
+      if (boxSet[boxIndex].has(cell)) return false;
+      boxSet[boxIndex].add(cell);
     }
   }
   return true;
