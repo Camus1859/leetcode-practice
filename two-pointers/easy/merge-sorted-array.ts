@@ -2,21 +2,19 @@
 // https://leetcode.com/problems/merge-sorted-array/
 
 function merge(nums1: number[], m: number, nums2: number[], n: number): void {
-  let startPosForNums1 = m - 1;
-  let startPosForNums2 = nums2.length - 1;
+  let p1 = m - 1;
+  let p2 = n - 1;
+  let write = nums1.length - 1;
 
-  for (let i = nums1.length - 1; i >= 0; i--) {
-    if (
-      startPosForNums2 >= 0 &&
-      (startPosForNums1 < 0 ||
-        nums2[startPosForNums2] > nums1[startPosForNums1])
-    ) {
-      nums1[i] = nums2[startPosForNums2];
-      startPosForNums2--;
-    } else if (startPosForNums1 >= 0) {
-      nums1[i] = nums1[startPosForNums1];
-      startPosForNums1--;
+  while (p2 >= 0) {
+    if (p1 < 0 || nums2[p2] >= nums1[p1]) {
+      nums1[write] = nums2[p2];
+      p2--;
+    } else {
+      nums1[write] = nums1[p1];
+      p1--;
     }
+    write--;
   }
 }
 
