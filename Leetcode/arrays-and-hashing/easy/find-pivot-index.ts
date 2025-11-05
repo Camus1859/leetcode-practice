@@ -1,46 +1,29 @@
 // 724. Find Pivot Index
 // https://leetcode.com/problems/find-pivot-index/
 
-export = {}
-
+export = {};
 function pivotIndex(nums: number[]): number {
+  let rightTotal = 0;
 
-    let leftPointer = 0
-    let rightPointer = nums.length - 1
-    let leftTotal = nums[0]
-    let rightTotal = nums[nums.length - 1]
+  for (let i = 1; i < nums.length; i++) {
+    rightTotal += nums[i];
+  }
 
-    while (nums[leftPointer + 1] !== nums[rightPointer - 1]) {
+  let leftTotal = 0;
+  let i = 0;
 
-        if (leftPointer + 1 === rightPointer) {
-            return - 1
-        }
-
-        if (nums[rightTotal] === 0 && nums[leftPointer - 1] === undefined) {
-            return 0
-        }
-
-        if (leftTotal <= rightTotal) {
-            leftPointer++
-            leftTotal += nums[leftPointer]
-
-        } else {
-            rightPointer--
-            rightTotal += nums[rightPointer]
-        }
+  while (i < nums.length) {
+    if (leftTotal === rightTotal) {
+      return i;
     }
 
-      if (leftPointer  === 0 && rightPointer === nums.length - 1) {
-            return - 1
-        }else{
-
-        
-    return leftPointer + 1
-
-        }
-};
-
-const nums1 = [1,7,3,6,5,6];
+    leftTotal += nums[i];
+    rightTotal -= nums[i + 1];
+    i++;
+  }
+  return i === nums.length ? -1 : i;
+}
+const nums1 = [1, 7, 3, 6, 5, 6];
 console.log(pivotIndex(nums1)); // Expected: 3
 
 // const nums2 = [1,2,3];
