@@ -21,7 +21,7 @@ function pivotIndex(nums: number[]): number {
     rightTotal -= nums[i + 1];
     i++;
   }
-  return i === nums.length ? -1 : i;
+  return -1;
 }
 const nums1 = [1, 7, 3, 6, 5, 6];
 console.log(pivotIndex(nums1)); // Expected: 3
