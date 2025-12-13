@@ -6,12 +6,13 @@ dist/
 
 # Hide all markdown files
 *.md
+
+# Hide review files
 *-REVIEW.ts
 
-# Hide mastery solutions
-mastery-solutions/
-*mastery-solutions
+# Archive folders (Round 1 data - don't push)
+archive/
+lc-mastery/archive/
 
-# Hide data drills folder
-data-drills/
+
 VestWeel_Interview_Prep/
