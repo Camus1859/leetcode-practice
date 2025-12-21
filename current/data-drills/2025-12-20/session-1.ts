@@ -6,45 +6,94 @@
 // PROBLEM 1
 // ============================================================
 
-export = {}
+export = {};
 
 const employees = [
-  { id: "E001", name: "Alice", department: "Engineering", salary: 95000, yearsAtCompany: 3 },
-  { id: "E002", name: "Bob", department: "Sales", salary: 72000, yearsAtCompany: 5 },
-  { id: "E003", name: "Carol", department: "Engineering", salary: 88000, yearsAtCompany: 2 },
-  { id: "E004", name: "Dan", department: "Sales", salary: 68000, yearsAtCompany: 1 },
-  { id: "E005", name: "Eva", department: "Engineering", salary: 102000, yearsAtCompany: 4 },
-  { id: "E006", name: "Frank", department: "HR", salary: 65000, yearsAtCompany: 6 },
+  {
+    id: "E001",
+    name: "Alice",
+    department: "Engineering",
+    salary: 95000,
+    yearsAtCompany: 3,
+  },
+  {
+    id: "E002",
+    name: "Bob",
+    department: "Sales",
+    salary: 72000,
+    yearsAtCompany: 5,
+  },
+  {
+    id: "E003",
+    name: "Carol",
+    department: "Engineering",
+    salary: 88000,
+    yearsAtCompany: 2,
+  },
+  {
+    id: "E004",
+    name: "Dan",
+    department: "Sales",
+    salary: 68000,
+    yearsAtCompany: 1,
+  },
+  {
+    id: "E005",
+    name: "Eva",
+    department: "Engineering",
+    salary: 102000,
+    yearsAtCompany: 4,
+  },
+  {
+    id: "E006",
+    name: "Frank",
+    department: "HR",
+    salary: 65000,
+    yearsAtCompany: 6,
+  },
 ];
 
-
 type EmployeesType = {
-  id: string,
-  name: string,
-  department: string,
-  salary: number,
-  yearsAtCompany: number
-}
+  id: string;
+  name: string;
+  department: string;
+  salary: number;
+  yearsAtCompany: number;
+};
 
-const groupEmployees = (employees: EmployeesType[]): {[key:string]: {headcount: number, totalSalary: number, avgYears: number}} => {
+const groupEmployees = (
+  employees: EmployeesType[]
+): {
+  [key: string]:
+    | { headcount: number; totalSalary: number; avgYears: number }
+    | any;
+} => {
+  const res = employees.reduce((acc, val) => {
+    acc[val.department] = acc[val.department] || {
+      headcount: 0,
+      totalSalary: 0,
+      avgYears: 0,
+    };
+    acc[val.department].headcount += 1;
+    acc[val.department].totalSalary += val.salary;
+    acc[val.department].avgYears += val.yearsAtCompany;
+    return acc;
+  }, {} as { [key: string]: { headcount: number; totalSalary: number; avgYears: number } });
 
-  return employees.reduce((acc, val) => {
+  const r = Object.fromEntries(
+    Object.entries(res).map((r) => {
+      const obj = r[1];
+      const key = r[0];
+      const newAvgYears = obj.avgYears / obj.headcount;
 
-    acc[val.department] = (acc[val.department] ||  { headcount: 0, totalSalary: 0, avgYears: 0 })
-    acc[val.department].headcount + 1
-    acc[val.department].totalSalary 
+      return [key, { ...obj, avgYears: newAvgYears.toFixed(1) }];
+    })
+  );
 
+  return r;
+};
 
-
-
-
-  },
-  {} as { [key: string]: { headcount: number; totalSalary: number; avgYears: number } });
-
-
-
-
-}
+console.log(groupEmployees(employees));
 
 // Task: Group employees by department. For each department, calculate:
 // - headcount (number of employees)
@@ -63,12 +112,48 @@ const groupEmployees = (employees: EmployeesType[]): {[key:string]: {headcount: 
 // ============================================================
 
 const orders = [
-  { orderId: "ORD-1", customerId: "C1", items: 3, total: 89.50, isPriority: true },
-  { orderId: "ORD-2", customerId: "C2", items: 1, total: 24.99, isPriority: false },
-  { orderId: "ORD-3", customerId: "C1", items: 5, total: 156.00, isPriority: true },
-  { orderId: "ORD-4", customerId: "C3", items: 2, total: 45.00, isPriority: false },
-  { orderId: "ORD-5", customerId: "C2", items: 4, total: 112.75, isPriority: true },
-  { orderId: "ORD-6", customerId: "C1", items: 1, total: 19.99, isPriority: false },
+  {
+    orderId: "ORD-1",
+    customerId: "C1",
+    items: 3,
+    total: 89.5,
+    isPriority: true,
+  },
+  {
+    orderId: "ORD-2",
+    customerId: "C2",
+    items: 1,
+    total: 24.99,
+    isPriority: false,
+  },
+  {
+    orderId: "ORD-3",
+    customerId: "C1",
+    items: 5,
+    total: 156.0,
+    isPriority: true,
+  },
+  {
+    orderId: "ORD-4",
+    customerId: "C3",
+    items: 2,
+    total: 45.0,
+    isPriority: false,
+  },
+  {
+    orderId: "ORD-5",
+    customerId: "C2",
+    items: 4,
+    total: 112.75,
+    isPriority: true,
+  },
+  {
+    orderId: "ORD-6",
+    customerId: "C1",
+    items: 1,
+    total: 19.99,
+    isPriority: false,
+  },
 ];
 
 // Task: Get all priority orders and transform them.
