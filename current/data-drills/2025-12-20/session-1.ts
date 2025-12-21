@@ -93,7 +93,7 @@ const groupEmployees = (
   return r;
 };
 
-console.log(groupEmployees(employees));
+// console.log(groupEmployees(employees));
 
 // Task: Group employees by department. For each department, calculate:
 // - headcount (number of employees)
@@ -156,6 +156,20 @@ const orders = [
   },
 ];
 
+type OrdersType = {
+  orderId: string;
+  customerId: string;
+  items: number;
+  total: number;
+  isPriority: boolean;
+};
+
+type OrdersReturnType = {
+  orderId: string;
+  customerId: string;
+  avgItemPrice: number;
+};
+
 // Task: Get all priority orders and transform them.
 // Return an array with: orderId, customerId, and avgItemPrice (total / items, rounded to 2 decimals).
 // Sort by avgItemPrice descending.
@@ -166,6 +180,21 @@ const orders = [
 //   { orderId: "ORD-1", customerId: "C1", avgItemPrice: 29.83 },
 //   { orderId: "ORD-5", customerId: "C2", avgItemPrice: 28.19 }
 // ]
+
+const getPriorityOrders = (orders: OrdersType[]): OrdersReturnType[] => {
+  return orders
+    .filter((o) => o.isPriority)
+    .map((o) => {
+      return {
+        orderId: o.orderId,
+        customerId: o.customerId,
+        avgItemPrice: Number((o.total / o.items).toFixed(2)),
+      };
+    })
+    .sort((a, b) => b.avgItemPrice - a.avgItemPrice);
+};
+
+console.log(getPriorityOrders(orders));
 
 // ============================================================
 // PROBLEM 3
@@ -179,6 +208,17 @@ const tickets = [
   { ticketId: "T005", assignee: "Bob", priority: "high", hoursLogged: 3 },
   { ticketId: "T006", assignee: "Alice", priority: "low", hoursLogged: 2 },
 ];
+
+type TicketsType = {
+  ticketId: string;
+  assignee: string;
+  priority: string;
+  hoursLogged: number;
+};
+
+const findTask = (tickets: TicketsType[]): TicketsType | undefined => {
+  return tickets.find((t) => t.hoursLogged > 5 && t.priority !== "low");
+};
 
 // Task: Find the first ticket where the assignee has logged more than 5 hours
 // AND the priority is NOT "low".
