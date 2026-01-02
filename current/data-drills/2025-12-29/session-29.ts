@@ -43,7 +43,7 @@ const consolodate = (
         warehouseCount: 0,
         warehouses: [],
       };
-      acc[val.sku].product = val.product
+      acc[val.sku].product = val.product;
       acc[val.sku].totalQuantity += val.quantity;
       acc[val.sku].warehouseCount += 1;
       acc[val.sku].warehouses.push(val.warehouse);
@@ -60,7 +60,7 @@ const consolodate = (
   );
 };
 
-console.log(consolodate(inventory))
+console.log(consolodate(inventory));
 
 // Task: Consolidate inventory by SKU. For each unique SKU, calculate:
 // - totalQuantity (sum across all warehouses)
@@ -87,6 +87,12 @@ const products = [
   { productId: "P300", name: "Gizmo", price: 150 },
 ];
 
+type ProductsType = {
+  productId: string;
+  name: string;
+  price: number;
+};
+
 const sales = [
   { saleId: "S001", productId: "P100", qty: 4, customerId: "C01" },
   { saleId: "S002", productId: "P200", qty: 2, customerId: "C02" },
@@ -94,6 +100,43 @@ const sales = [
   { saleId: "S004", productId: "P300", qty: 3, customerId: "C03" },
   { saleId: "S005", productId: "P200", qty: 5, customerId: "C01" },
 ];
+
+type SalesType = {
+  saleId: string;
+  productId: string;
+  qty: number;
+  customerId: string;
+};
+
+type ReturnType = {
+  saleId: string;
+  productId: string;
+  qty: number;
+  customerId: string;
+  productName: string;
+  unitPrice: number;
+  saleTotal: number;
+};
+
+const combine = (
+  products: ProductsType[],
+  sales: SalesType[]
+): ReturnType[] => {
+  return sales.map((s) => {
+    const productName = products.find((p) => p.productId === s.productId)!.name;
+    // const unitPrice = products.find((p)=> p.productId === s.productId).
+    const price = products.find((p) => p.productId === s.productId)!.price;
+    const saleTotal = price && price * s.qty;
+    const unitPrice = saleTotal && saleTotal / s.qty;
+
+    return {
+      ...s,
+      productName,
+      saleTotal,
+      unitPrice,
+    };
+  });
+};
 
 // Task: Enrich each sale with product info and calculate the total for that sale.
 // Return an array of enriched sale objects.
@@ -125,6 +168,12 @@ const currentPermissions = [
   { userId: "U03", resource: "reports", access: "read" },
 ];
 
+type CurrentPermissionsType = {
+  userId: string;
+  resource: string;
+  access: string;
+};
+
 const requestedPermissions = [
   { userId: "U01", resource: "dashboard", access: "read" },
   { userId: "U01", resource: "settings", access: "read" },
@@ -132,6 +181,41 @@ const requestedPermissions = [
   { userId: "U03", resource: "reports", access: "read" },
   { userId: "U03", resource: "dashboard", access: "read" },
 ];
+
+type RequestedPermissionsType = {
+  userId: string;
+  resource: string;
+  access: string;
+};
+
+type RequestedReturnType = {
+  unchanged: RequestedPermissionsType[];
+  upgraded: RequestedPermissionsType[];
+  new: RequestedPermissionsType[];
+};
+
+const modify = (
+  currentPermissions: CurrentPermissionsType[],
+  requestedPermissions: RequestedPermissionsType[]
+): RequestedReturnType => {
+  const obj: RequestedReturnType = { unchanged: [], upgraded: [], new: [] };
+
+  for (const r of requestedPermissions) {
+    const match = currentPermissions.find(
+      (c) => c.userId === r.userId && c.resource === r.resource
+    );
+
+    if (!match) {
+      obj.new.push(r);
+    } else if (match.access === r.access) {
+      obj.unchanged.push(r);
+    } else {
+      obj.upgraded.push(r);
+    }
+  }
+
+  return obj;
+};
 
 // Task: Compare current vs requested permissions and categorize each requested permission as:
 // - "unchanged": exact match exists in current (same userId, resource, AND access)
