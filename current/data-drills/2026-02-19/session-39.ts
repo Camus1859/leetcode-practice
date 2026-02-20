@@ -169,6 +169,16 @@ console.log(findStores(stores, sales));
 // PROBLEM 3 (P2-style: flatten nested structure)
 // ============================================================
 
+type Classes = {
+  subject: string;
+  students: string[];
+};
+
+type School = {
+  grade: string;
+  classes: Classes[];
+};
+
 const school = [
   {
     grade: "9th",
@@ -189,6 +199,30 @@ const school = [
     classes: [{ subject: "Art", students: ["Kara"] }],
   },
 ];
+
+const flatten = (
+  school: School[],
+): { name: string; subject: string; grade: string }[] => {
+  const res = [];
+
+  for (const s of school) {
+    const myClasses = s.classes;
+    const grade = s.grade;
+
+    for (const c of myClasses) {
+      for (const s of c.students) {
+        res.push({
+          name: s,
+          subject: c.subject,
+          grade,
+        });
+      }
+    }
+  }
+  return res;
+};
+
+console.log(flatten(school));
 
 // Task: Flatten this nested structure into a single array where each
 // entry contains a student's name, the subject they're in, and their
