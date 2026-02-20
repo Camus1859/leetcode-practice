@@ -89,6 +89,11 @@ console.log(getEmployees(employees, tasks));
 // PROBLEM 2 (P1-style: filter + aggregate + multi-condition)
 // ============================================================
 
+type Stores = {
+  storeId: string;
+  city: string;
+};
+
 const stores = [
   { storeId: "WEST-10", city: "Seattle" },
   { storeId: "WEST-22", city: "Portland" },
@@ -96,6 +101,11 @@ const stores = [
   { storeId: "WEST-38", city: "San Francisco" },
   { storeId: "EAST-11", city: "New York" },
 ];
+
+type Sales = {
+  storeId: string;
+  amount: number;
+};
 
 const sales = [
   { storeId: "WEST-10", amount: 450 },
@@ -115,6 +125,31 @@ const sales = [
   { storeId: "EAST-11", amount: 500 },
   { storeId: "EAST-11", amount: 475 },
 ];
+
+const findStores = (
+  stores: Stores[],
+  sales: Sales[],
+): { city: string; transactionCount: number; avgAmount: number }[] => {
+  const westStores = stores.filter((s) => s.storeId.split("-")[0] === "WEST");
+  const res = [];
+
+  for (const wStore of westStores) {
+    const westSales = sales.filter((s) => s.storeId === wStore.storeId);
+    if (westSales.length < 3) continue;
+    
+    const totalSales = westSales.reduce((acc, val) => acc + val.amount, 0);
+    if (totalSales / westSales.length < 300) continue;
+
+    res.push({
+      city: wStore.city,
+      transactionCount: westSales.length,
+      avgAmount: totalSales / westSales.length,
+    });
+  }
+  return res;
+};
+
+console.log(findStores(stores, sales));
 
 // Task: Find all stores where:
 //   - The storeId starts with "WEST-" (west region only)
