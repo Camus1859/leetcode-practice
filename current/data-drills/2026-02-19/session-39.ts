@@ -17,6 +17,12 @@ const employees = [
   { id: "ENG-20", name: "Roy", department: "Engineering" },
 ];
 
+type Employees = {
+  id: string;
+  name: string;
+  department: string;
+};
+
 const tasks = [
   { assignee: "ENG-01", project: "Atlas", hours: 12 },
   { assignee: "ENG-01", project: "Atlas", hours: 8 },
@@ -47,6 +53,38 @@ const tasks = [
 //   { name: "Roy", taskCount: 3, totalHours: 25 },
 // ]
 
+type Tasks = {
+  assignee: string;
+  project: string;
+  hours: number;
+};
+
+const getEmployees = (
+  employees: Employees[],
+  tasks: Tasks[],
+): { name: string; taskCount: number; totalHours: number }[] => {
+  const engEmployees = employees.filter((e) => e.id.split("-")[0] === "ENG");
+  let res = [];
+
+  for (const engEmployee of engEmployees) {
+    const t = tasks.reduce(
+      (acc, val) => {
+        if (val.assignee === engEmployee.id) {
+          acc["name"] = engEmployee.name;
+          acc["taskCount"] = (acc["taskCount"] || 0) + 1;
+          acc["totalHours"] = (acc["totalHours"] || 0) + val.hours;
+          return acc;
+        }
+        return acc;
+      },
+      {} as { name: string; taskCount: number; totalHours: number },
+    );
+    res.push(t);
+  }
+  return res.filter((r) => r.taskCount >= 3 && r.totalHours >= 20);
+};
+
+console.log(getEmployees(employees, tasks));
 // ============================================================
 // PROBLEM 2 (P1-style: filter + aggregate + multi-condition)
 // ============================================================
