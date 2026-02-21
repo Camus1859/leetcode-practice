@@ -176,3 +176,109 @@ console.log(creatFlattenTeam(departments));
 //   { name: "Irene", team: "Content", department: "Marketing" },
 //   { name: "Jake", team: "Content", department: "Marketing" },
 // ]
+
+// ============================================================
+// PROBLEM 3
+// ============================================================
+
+type Items = {
+  sku: string;
+  qty: number;
+};
+
+type Orders = {
+  orderId: string;
+  items: Items[];
+};
+
+const orders = [
+  {
+    orderId: "A1",
+    items: [
+      { sku: "W100", qty: 2 },
+      { sku: "W200", qty: 1 },
+    ],
+  },
+  {
+    orderId: "A2",
+    items: [
+      { sku: "W100", qty: 5 },
+      { sku: "W300", qty: 3 },
+    ],
+  },
+  {
+    orderId: "A3",
+    items: [
+      { sku: "W200", qty: 2 },
+      { sku: "W300", qty: 1 },
+    ],
+  },
+];
+
+type Inventory = {
+  sku: string;
+  stock: number;
+};
+
+const inventory = [
+  { sku: "W100", stock: 4 },
+  { sku: "W200", stock: 10 },
+  { sku: "W300", stock: 2 },
+];
+
+type UnfilledOrder = {
+  orderId: string;
+  shortItems: { sku: string; requested: number; available: number }[];
+};
+
+const firstUnfilledOrder = (
+  orders: Orders[],
+  inventory: Inventory[],
+): UnfilledOrder | null => {
+  for (const order of orders) {
+    const items = order.items;
+
+    const noOrder = items
+      .filter((i) => {
+        const inv = inventory.find((inventory) => inventory.sku === i.sku);
+        return inv && inv.stock < i.qty;
+      })
+      .map((i) => {
+        const inv = inventory.find((inventory) => inventory.sku === i.sku);
+        return {
+          sku: i.sku,
+          requested: i.qty,
+          available: inv.stock,
+        };
+      });
+    if (noOrder.length > 0) {
+      return {
+        orderId: order.orderId,
+        shortItems: noOrder,
+      };
+    }
+  }
+  return null;
+};
+
+console.log(firstUnfilledOrder(orders, inventory));
+
+// Task: Find the first order that cannot be fully fulfilled — meaning
+// at least one of its items has a requested quantity that exceeds
+// the available stock in inventory. Return the orderId and an array
+// of only the specific items that are short, showing the sku, the
+// requested quantity, and the available stock.
+//
+// If all orders can be fulfilled, return null.
+//
+// Expected output:
+// {
+//   orderId: "A2",
+//   shortItems: [
+//     { sku: "W100", requested: 5, available: 4 },
+//     { sku: "W300", requested: 3, available: 2 }
+//   ]
+// }
+//
+// Test case 2: If inventory had stock: W100=10, W200=10, W300=10,
+// expected output: null
