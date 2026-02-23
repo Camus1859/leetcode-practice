@@ -65,12 +65,23 @@ console.log(getBooks(authors, books));
 // PROBLEM 2 (medium — cross-reference + aggregate + sort)
 // ============================================================
 
+type Teams = {
+  teamId: string;
+  name: string;
+  region: string;
+};
+
 const teams = [
   { teamId: "T1", name: "Alpha", region: "East" },
   { teamId: "T2", name: "Bravo", region: "West" },
   { teamId: "T3", name: "Charlie", region: "East" },
   { teamId: "T4", name: "Delta", region: "West" },
 ];
+
+type Scores = {
+  teamId: string;
+  points: number;
+};
 
 const scores = [
   { teamId: "T1", points: 45 },
@@ -84,6 +95,31 @@ const scores = [
   { teamId: "T3", points: 29 },
   { teamId: "T4", points: 22 },
 ];
+
+const getTeamEast = (
+  teams: Teams[],
+  scores: Scores[],
+): { name: string; gamesPlayed: number; avgScore: number }[] => {
+  const eastTeams = teams.filter((t) => t.region === "East");
+
+  return eastTeams
+    .map((et) => {
+      const eastTeamScores = scores.filter((s) => s.teamId === et.teamId);
+      const totalScore = eastTeamScores.reduce(
+        (acc, val) => acc + val.points,
+        0,
+      );
+
+      return {
+        name: et.name,
+        gamesPlayed: eastTeamScores.length,
+        avgScore: Number((totalScore / eastTeamScores.length).toFixed(1)),
+      };
+    })
+    .sort((a, b) => b.avgScore - a.avgScore);
+};
+
+console.log(getTeamEast(teams, scores))
 
 // Task: For teams in the "East" region only, return each team's name,
 // number of games played, and average score (rounded to 1 decimal).
