@@ -203,6 +203,17 @@ console.log(getOrders(orders));
 // PROBLEM 4 (hard — nested data, filter + map + some + reduce)
 // ============================================================
 
+type Attendees = {
+  name: string;
+  paid: boolean;
+};
+
+type Events = {
+  name: string;
+  date: string;
+  attendees: Attendees[];
+};
+
 const events = [
   {
     name: "Tech Summit",
@@ -232,6 +243,29 @@ const events = [
     ],
   },
 ];
+
+const eventsUnpaid = (
+  events: Events[],
+): { name: string; totalAttendees: number; unpaidCount: number }[] => {
+  return events
+    .filter((e) => {
+      return e.attendees.some((a) => a.paid === false);
+    })
+    .map((a) => {
+      const unpaidCount = a.attendees.reduce(
+        (acc, val) => acc + (val.paid === false ? 1 : 0),
+        0,
+      );
+      return {
+        name: a.name,
+        totalAttendees: a.attendees.length,
+        unpaidCount,
+      };
+    })
+    .sort((a, b) => b.unpaidCount - a.unpaidCount);
+};
+
+console.log(eventsUnpaid(events));
 
 // Task: Find all events that have at least one attendee who hasn't paid.
 // Return { name, totalAttendees, unpaidCount } for each,
