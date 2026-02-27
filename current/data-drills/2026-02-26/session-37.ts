@@ -89,7 +89,7 @@ const getAllProducts = (products: Products[]) => {
   });
 };
 
-console.log(getAllProducts(products))
+console.log(getAllProducts(products));
 // Task: Get all products that are currently in stock. For each one,
 // create an object with the product's name, category, and a "tier"
 // field based on its rating:
@@ -120,6 +120,32 @@ const salesData = [
   { rep: "Tina", region: "West", revenue: 10900 },
   { rep: "Uma", region: "East", revenue: 13400 },
 ];
+
+type SalesData = {
+  rep: string;
+  region: string;
+  revenue: number;
+};
+
+const getRegion = (
+  salesData: SalesData[],
+): { [key: string]: { rep: string; revenue: number } } => {
+  return salesData.reduce(
+    (acc, val) => {
+      acc[val.region] = acc[val.region] || { rep: "", revenue: 0 };
+
+      if (acc[val.region].revenue < val.revenue) {
+        acc[val.region].rep = val.rep;
+        acc[val.region].revenue = val.revenue;
+      }
+
+      return acc;
+    },
+    {} as { [key: string]: { rep: string; revenue: number } },
+  );
+};
+
+console.log(getRegion(salesData));
 
 // Task: For each region, find the sales rep with the highest revenue.
 // Return an object where each key is a region name, and each value
