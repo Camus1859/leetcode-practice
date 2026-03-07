@@ -8,14 +8,46 @@ export {};
 // ============================================================
 
 const vehicles = [
-  { id: "V01", make: "Toyota", model: "Camry", mileage: 45000, fuelType: "gas" },
-  { id: "V02", make: "Tesla", model: "Model 3", mileage: 12000, fuelType: "electric" },
+  {
+    id: "V01",
+    make: "Toyota",
+    model: "Camry",
+    mileage: 45000,
+    fuelType: "gas",
+  },
+  {
+    id: "V02",
+    make: "Tesla",
+    model: "Model 3",
+    mileage: 12000,
+    fuelType: "electric",
+  },
   { id: "V03", make: "Honda", model: "Civic", mileage: 89000, fuelType: "gas" },
   { id: "V04", make: "Ford", model: "F-150", mileage: 120000, fuelType: "gas" },
-  { id: "V05", make: "Chevy", model: "Bolt", mileage: 30000, fuelType: "electric" },
-  { id: "V06", make: "Toyota", model: "Corolla", mileage: 67000, fuelType: "gas" },
+  {
+    id: "V05",
+    make: "Chevy",
+    model: "Bolt",
+    mileage: 30000,
+    fuelType: "electric",
+  },
+  {
+    id: "V06",
+    make: "Toyota",
+    model: "Corolla",
+    mileage: 67000,
+    fuelType: "gas",
+  },
   { id: "V07", make: "BMW", model: "i4", mileage: 5000, fuelType: "electric" },
 ];
+
+type Vehicles = {
+  id: string;
+  make: string;
+  model: string;
+  mileage: number;
+  fuelType: string;
+};
 
 // Task: Filter vehicles with mileage under 75,000, then transform each
 // into a string: "Make Model - Condition" where Condition is:
@@ -31,6 +63,25 @@ const vehicles = [
 //   "Toyota Corolla - Good",
 //   "BMW i4 - Like New"
 // ]
+
+const filterVehicle = (vehicles: Vehicles[]): string[] => {
+  return vehicles
+    .filter((v) => v.mileage < 75000)
+    .map((m) => {
+      let condition: string = "";
+
+      if (m.mileage < 15000) {
+        condition = "Like New";
+      } else if (m.mileage < 40000) {
+        condition = "Excellent";
+      } else {
+        condition = "Good";
+      }
+      return `${m.make} ${m.model} - ${condition}`;
+    });
+};
+
+console.log(filterVehicle(vehicles));
 
 // ============================================================
 // PROBLEM 2
