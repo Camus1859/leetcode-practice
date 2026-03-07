@@ -109,9 +109,18 @@ const buildClassRoster = (classRosters: ClassRosters[]) => {
     }
   }
 
-  return res
+  return res;
 };
-console.log(buildClassRoster(classRosters))
+
+// const buildClassRoster = (classRosters: ClassRosters[]) => {
+
+//   return classRosters.reduce((acc, val)=> {
+
+//   }, {})
+
+// };
+
+console.log(buildClassRoster(classRosters));
 
 // Task: Flatten these rosters into a single array where each entry
 // has the student name and which class they're in. A student who
@@ -135,6 +144,11 @@ console.log(buildClassRoster(classRosters))
 // PROBLEM 3
 // ============================================================
 
+type Team = {
+  name: string;
+  skills: string[];
+};
+
 const team = [
   { name: "Alice", skills: ["JavaScript", "React", "CSS"] },
   { name: "Bob", skills: ["Python", "SQL", "JavaScript"] },
@@ -144,6 +158,35 @@ const team = [
 
 const requiredSkills = ["JavaScript", "React", "SQL", "Docker", "Kubernetes"];
 
+const checkSkills = (
+  team: Team[],
+  requiredSkills: string[],
+): { covered: boolean; missingSkills: string[] } => {
+  const res: { covered: boolean; missingSkills: string[] } = {
+    covered: true,
+    missingSkills: [],
+  };
+
+  const allSkills: string[] = [];
+
+  for (const t of team) {
+    const s = t.skills;
+    for (const skill of s) {
+      allSkills.push(skill);
+    }
+  }
+
+  for (const rs of requiredSkills) {
+    if (!allSkills.includes(rs)) {
+      res.missingSkills.push(rs);
+      res.covered = false;
+    }
+  }
+
+  return res;
+};
+
+console.log(checkSkills(team, requiredSkills));
 // Task: Check whether the team collectively covers each required skill
 // (at least one member has it). Return an object with:
 //   - covered: true/false (are ALL required skills covered?)
