@@ -87,11 +87,31 @@ console.log(filterVehicle(vehicles));
 // PROBLEM 2
 // ============================================================
 
+type ClassRosters = {
+  className: string;
+  students: string[];
+};
+
 const classRosters = [
   { className: "Math 101", students: ["Alice", "Bob", "Carol"] },
   { className: "Physics 201", students: ["Bob", "Dan", "Eve"] },
   { className: "English 101", students: ["Alice", "Frank", "Eve", "Carol"] },
 ];
+
+const buildClassRoster = (classRosters: ClassRosters[]) => {
+  const res: { student: string; class: string }[] = [];
+
+  for (const roster of classRosters) {
+    const students = roster.students;
+
+    for (const student of students) {
+      res.push({ student, class: roster.className });
+    }
+  }
+
+  return res
+};
+console.log(buildClassRoster(classRosters))
 
 // Task: Flatten these rosters into a single array where each entry
 // has the student name and which class they're in. A student who
