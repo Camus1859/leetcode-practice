@@ -21,6 +21,24 @@ const members = [
   { name: "Sam", workouts: [25, 30] },
 ];
 
+const getMembers = (
+  members: MembersType[],
+): { name: string; avgDuration: number }[] => {
+  const qualifiedMembers = members.filter(
+    (member) => member.workouts.length > 2,
+  );
+
+  return qualifiedMembers.map((member) => {
+    const total = member.workouts.reduce((acc, val) => acc + val, 0);
+
+    return {
+      name: member.name,
+      avgDuration: Number((total / member.workouts.length).toFixed(1)),
+    };
+  });
+};
+
+console.log(getMembers(members));
 
 // Task: Get members who have logged at least 3 workouts.
 // For each, return their name and their average workout
