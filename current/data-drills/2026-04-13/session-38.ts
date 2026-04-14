@@ -82,13 +82,13 @@ const bookObj = (checkouts: CheckoutsType[]): { [key: string]: string[] } => {
       if (!hasBook) {
         acc[val.member].push(val.book);
       }
-      return acc
+      return acc;
     },
     {} as { [key: string]: string[] },
   );
 };
 
-console.log(bookObj(checkouts))
+console.log(bookObj(checkouts));
 // Task: Build an object where each member name maps to an
 // array of unique book titles they've checked out (no duplicates).
 // The books within each member's list should appear in the order
@@ -104,6 +104,26 @@ console.log(bookObj(checkouts))
 // ============================================================
 // PROBLEM 3
 // ============================================================
+
+type TeamsType = {
+  teamName: string;
+  members: { name: string; certified: boolean }[];
+};
+
+const regTeams = (teams: TeamsType[]): string[] => {
+  const res: string[] = [];
+  for (const team of teams) {
+    const name = team.teamName;
+
+    const allCertified = team.members.every((m) => m.certified);
+
+    if (allCertified) {
+      res.push(name);
+    }
+  }
+
+  return res;
+};
 
 const teams = [
   {
@@ -137,6 +157,8 @@ const teams = [
     ],
   },
 ];
+
+console.log(regTeams(teams));
 
 // Task: Find the names of teams where every single member
 // is certified. Return just the team names as an array.
