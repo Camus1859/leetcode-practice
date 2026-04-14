@@ -55,6 +55,11 @@ console.log(getMembers(members));
 // PROBLEM 2
 // ============================================================
 
+type CheckoutsType = {
+  member: string;
+  book: string;
+};
+
 const checkouts = [
   { member: "Alice", book: "Dune" },
   { member: "Bob", book: "1984" },
@@ -67,6 +72,23 @@ const checkouts = [
   { member: "Alice", book: "1984" },
 ];
 
+const bookObj = (checkouts: CheckoutsType[]): { [key: string]: string[] } => {
+  return checkouts.reduce(
+    (acc, val) => {
+      acc[val.member] = acc[val.member] || [];
+
+      const hasBook = acc[val.member].includes(val.book);
+
+      if (!hasBook) {
+        acc[val.member].push(val.book);
+      }
+      return acc
+    },
+    {} as { [key: string]: string[] },
+  );
+};
+
+console.log(bookObj(checkouts))
 // Task: Build an object where each member name maps to an
 // array of unique book titles they've checked out (no duplicates).
 // The books within each member's list should appear in the order
