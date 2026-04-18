@@ -145,9 +145,9 @@ const order = (
 
     if (!inventoryItem || inventoryItem.stock < order.qty) {
       res.shortages.push({
-        sku: inventoryItem?.sku,
+        sku: inventoryItem?.sku ?? order.sku,
         requested: order.qty,
-        available: inventoryItem?.stock,
+        available: inventoryItem?.stock ?? 0,
       });
       res.canFulfill = false;
     }
