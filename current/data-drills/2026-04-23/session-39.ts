@@ -24,7 +24,15 @@ const menuItems = [
   { name: "Fries", category: "appetizer", price: 6.0 },
 ];
 
+const getItems = (s: string, menuItems: MenuItemsType[]): string[] => {
+  return menuItems
+    .filter((m) => m.name.toLowerCase().startsWith(s.toLowerCase()))
+    .map((item) => {
+      return `${item.name} - ${item.price.toFixed(2)}`;
+    });
+};
 
+console.log(getItems("ch", menuItems))
 
 // Task: Given a search string, find all menu items whose name
 // starts with that string (case-insensitive). Transform each
