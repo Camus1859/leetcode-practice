@@ -70,6 +70,18 @@ const sales = [
   { product: "Headphones", quantity: 6, priceEach: 150 },
 ];
 
+const processSales = (
+  sales: SalesType[],
+): { totalRevenue: number; totalItemsSold: number; bestSeller: string } => {
+  return sales.reduce(
+    (acc, val) => {
+      acc["totalRevenue"] = acc["totalRevenue"] || 0;
+      acc["totalRevenue"] += val.quantity * val.priceEach;
+    },
+    {} as { totalRevenue: number; totalItemsSold: number; bestSeller: string },
+  );
+};
+
 
 
 // Task: Process these sales into a single summary object with:
