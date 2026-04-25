@@ -32,7 +32,7 @@ const getItems = (s: string, menuItems: MenuItemsType[]): string[] => {
     });
 };
 
-console.log(getItems("ch", menuItems))
+console.log(getItems("ch", menuItems));
 
 // Task: Given a search string, find all menu items whose name
 // starts with that string (case-insensitive). Transform each
@@ -55,10 +55,10 @@ console.log(getItems("ch", menuItems))
 // ============================================================
 
 type SalesType = {
-  products: string,
-  quantity: number,
-  priceEach: number
-}
+  product: string;
+  quantity: number;
+  priceEach: number;
+};
 
 const sales = [
   { product: "Laptop", quantity: 3, priceEach: 999 },
@@ -73,16 +73,34 @@ const sales = [
 const processSales = (
   sales: SalesType[],
 ): { totalRevenue: number; totalItemsSold: number; bestSeller: string } => {
-  return sales.reduce(
+  const revenueByProduct: { [key: string]: number } = {};
+
+  const result = sales.reduce(
     (acc, val) => {
-      acc["totalRevenue"] = acc["totalRevenue"] || 0;
-      acc["totalRevenue"] += val.quantity * val.priceEach;
+      acc.totalRevenue += val.quantity * val.priceEach;
+      acc.totalItemsSold += val.quantity;
+
+      revenueByProduct[val.product] = (revenueByProduct[val.product] || 0) + val.quantity * val.priceEach;
+
+      return acc;
     },
-    {} as { totalRevenue: number; totalItemsSold: number; bestSeller: string },
+    { totalRevenue: 0, totalItemsSold: 0, bestSeller: "" },
   );
+
+  console.log(result)
+
+  let highest = 0;
+  for (const [product, revenue] of Object.entries(revenueByProduct)) {
+    if (revenue > highest) {
+      highest = revenue;
+      result.bestSeller = product;
+    }
+  }
+
+  return result;
 };
 
-
+console.log(processSales(sales));
 
 // Task: Process these sales into a single summary object with:
 //   - totalRevenue: sum of (quantity * priceEach) across all sales
