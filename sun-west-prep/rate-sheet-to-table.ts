@@ -37,7 +37,7 @@ const createData = (rateData: string): string => {
     for (const arr of tableRow) {
       innerArr.push(arr[counter]);
 
-      if (innerArr.length === 2) {
+      if (innerArr.length === tableRow.length) {
         outerArr.push(innerArr);
         counter++;
         innerArr = [];
@@ -52,7 +52,7 @@ const createData = (rateData: string): string => {
 
   const tr = outerArr.map((tr)=> {
     const td = tr.map((td)=> `<td>${td}</td>`)
-    return `<tr>`
+    return `<tr>${td}</tr>`
   })
 
   return `<table> 
