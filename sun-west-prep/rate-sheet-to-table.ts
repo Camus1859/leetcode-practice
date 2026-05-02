@@ -27,7 +27,7 @@ const createData = (rateData: string): string => {
     return row;
   });
 
-  const th = label.map((th) => `<th>${th}</th>`);
+  const th = label.map((th) => `<th>${th}</th>`).join("");
 
   const outerArr = columnOne.map((val, i) => {
     const row = tableRow.map((row) => row[i]);
@@ -35,9 +35,9 @@ const createData = (rateData: string): string => {
   });
 
   const tr = outerArr.map((tr) => {
-    const td = tr.map((td) => `<td>${td}</td>`);
+    const td = tr.map((td) => `<td>${td}</td>`).join("");
     return `<tr>${td}</tr>`;
-  });
+  }).join("");
 
   return `<table> 
   <thead>
