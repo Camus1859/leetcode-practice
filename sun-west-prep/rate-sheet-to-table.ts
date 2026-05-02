@@ -1,49 +1,71 @@
+// Rate Sheet to HTML Table (Transposed)
+//
+
+//
+//        | 10  | 20  |  30 |
+//  ------|-----|-----|-----|
+//  5.0   | 100 |  99 |  98 |
+//  5.5   | 101 | 100 |  99 |
+//  6.0   | 102 | 101 | 100 |
+//
+// Your function should return the HTML as a single string.
+
 const rateData =
   "5.0, 100, 5.5, 101, 6.0, 102:L10;5.0, 99, 5.5, 100, 6.0, 101:L20;5.0, 98, 5.5, 99, 6.0, 100:L30";
 
-// The data represents this table:
-//
-//        | 5.0 | 5.5 | 6.0 |
-//  ------|-----|-----|-----|
-//  L10   | 100 | 101 | 102 |
-//  L20   |  99 | 100 | 101 |
-//  L30   |  98 |  99 | 100 |
-//
+const createData = (rateData: string): string => {
+  const table = rateData.split(";").map((s) => s.split(":"));
+  const label = rateData
+    .split(";")
+    .map((s) => s.split(":"))
+    .map((s) => s[1].split("L")[1]);
 
-// Your function should return the HTML as a single string (no extra whitespace needed).
+  const columnOne = table[0][0].split(",").filter((_, i) => i % 2 === 0);
 
-const createTable = (rawData: string): string => {
-  const table = rawData.split(";").map((s) => s.split(":"));
-  const numbers = table[0][0].split(",").map((s) => s.trim());
-  const rowHeader = numbers.filter((_, i) => i % 2 === 0);
-
-  const rowBody = table.map((t) => {
-    const cells = t[0].split(",").map((s) => s.trim());
-    const prices = cells.filter((_, i) => i % 2 !== 0);
-    return [t[1], ...prices];
+  const tableRow = table.map((t) => {
+    const row = t[0].split(",").filter((_, i) => i % 2 !== 0);
+    return row;
   });
 
-  const th = rowHeader.map((th) => `<th>${th}</th>`).join("");
-  const tr = rowBody
-    .map((tr) => {
-      const td = tr.map((td) => `<td>${td}</td>`).join("");
-      return `<tr>${td}</tr>`;
-    })
-    .join("");
+  const th = label.map((th) => `<th>${th}</th>`);
 
-  return `
-  <table>
-    <thead>
-     <tr>
-     <th></th>
-     ${th}
-     </tr>
-    </thead>
-    <tbody>
-      ${tr}
-    </tbody>
-  </table>
-  `;
+  const outerArr = [];
+  let innerArr = [];
+  let counter = 0;
+
+  while (counter < tableRow[0].length) {
+    for (const arr of tableRow) {
+      innerArr.push(arr[counter]);
+
+      if (innerArr.length === 2) {
+        outerArr.push(innerArr);
+        counter++;
+        innerArr = [];
+      }
+    }
+  }
+
+  for (let i = 0; i < tableRow.length; i++) {
+    const value = columnOne[i];
+    outerArr[i].push(value);
+  }
+
+  const tr = outerArr.map((tr)=> {
+    const td = tr.map((td)=> `<td>${td}</td>`)
+    return `<tr>`
+  })
+
+  return `<table> 
+  <thead>
+  <tr>
+  <th></th>
+  ${th}
+  </tr>
+  </thead>
+  <tbody>
+  ${tr}
+  </tbody>
+  </table>`;
 };
 
-createTable(rateData);
+createData(rateData);
