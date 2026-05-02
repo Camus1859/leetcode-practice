@@ -1,7 +1,5 @@
 // Rate Sheet to HTML Table (Transposed)
-//
 
-//
 //        | 10  | 20  |  30 |
 //  ------|-----|-----|-----|
 //  5.0   | 100 |  99 |  98 |
@@ -15,34 +13,30 @@ const rateData =
 
 const createData = (rateData: string): string => {
   const table = rateData.split(";").map((s) => s.split(":"));
-  const label = table.map((t) => t[1].split("L")[1]);
+  const rowOne = table.map((row) => row[1].split("L")[1]);
+  const rates = table[0][0].split(",").filter((_, i) => i % 2 === 0);
+  const tableRow = table.map((t) =>
+    t[0].split(",").filter((_, i) => i % 2 !== 0),
+  );
 
-  const columnOne = table[0][0].split(",").filter((_, i) => i % 2 === 0);
-
-  const tableRow = table.map((t) => {
-    const row = t[0].split(",").filter((_, i) => i % 2 !== 0);
-    return row;
+  const transpose = rates.map((rate, i) => {
+    const row = tableRow.map((r) => r[i]);
+    return [rate, ...row];
   });
 
-  const th = label.map((th) => `<th>${th}</th>`).join("");
-
-  const outerArr = columnOne.map((val, i) => {
-    const row = tableRow.map((row) => row[i]);
-    return [val, ...row];
-  });
-
-  const tr = outerArr
+  const th = rowOne.map((th) => `<th>${th}</th>`).join("");
+  const tr = transpose
     .map((tr) => {
-      const td = tr.map((td) => `<td>${td}</td>`).join("");
+      const td = tr.map((td) => `<td>${td.trim()}</td>`).join("");
       return `<tr>${td}</tr>`;
     })
     .join("");
 
-  return `<table> 
+  return `<table>
   <thead>
   <tr>
   <th></th>
-  ${th}
+   ${th}
   </tr>
   </thead>
   <tbody>
@@ -51,4 +45,4 @@ const createData = (rateData: string): string => {
   </table>`;
 };
 
-createData(rateData);
+console.log(createData(rateData));
