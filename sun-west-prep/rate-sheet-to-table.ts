@@ -15,10 +15,7 @@ const rateData =
 
 const createData = (rateData: string): string => {
   const table = rateData.split(";").map((s) => s.split(":"));
-  const label = rateData
-    .split(";")
-    .map((s) => s.split(":"))
-    .map((s) => s[1].split("L")[1]);
+  const label = table.map((t) => t[1].split("L")[1]);
 
   const columnOne = table[0][0].split(",").filter((_, i) => i % 2 === 0);
 
@@ -34,10 +31,12 @@ const createData = (rateData: string): string => {
     return [val, ...row];
   });
 
-  const tr = outerArr.map((tr) => {
-    const td = tr.map((td) => `<td>${td}</td>`).join("");
-    return `<tr>${td}</tr>`;
-  }).join("");
+  const tr = outerArr
+    .map((tr) => {
+      const td = tr.map((td) => `<td>${td}</td>`).join("");
+      return `<tr>${td}</tr>`;
+    })
+    .join("");
 
   return `<table> 
   <thead>
