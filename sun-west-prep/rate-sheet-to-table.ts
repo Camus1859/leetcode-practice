@@ -29,31 +29,15 @@ const createData = (rateData: string): string => {
 
   const th = label.map((th) => `<th>${th}</th>`);
 
-  const outerArr = [];
-  let innerArr = [];
-  let counter = 0;
+  const outerArr = columnOne.map((val, i) => {
+    const row = tableRow.map((row) => row[i]);
+    return [val, ...row];
+  });
 
-  while (counter < tableRow[0].length) {
-    for (const arr of tableRow) {
-      innerArr.push(arr[counter]);
-
-      if (innerArr.length === tableRow.length) {
-        outerArr.push(innerArr);
-        counter++;
-        innerArr = [];
-      }
-    }
-  }
-
-  for (let i = 0; i < tableRow.length; i++) {
-    const value = columnOne[i];
-    outerArr[i].unshift(value);
-  }
-
-  const tr = outerArr.map((tr)=> {
-    const td = tr.map((td)=> `<td>${td}</td>`)
-    return `<tr>${td}</tr>`
-  })
+  const tr = outerArr.map((tr) => {
+    const td = tr.map((td) => `<td>${td}</td>`);
+    return `<tr>${td}</tr>`;
+  });
 
   return `<table> 
   <thead>
