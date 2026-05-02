@@ -47,7 +47,7 @@ const createData = (rateData: string): string => {
 
   for (let i = 0; i < tableRow.length; i++) {
     const value = columnOne[i];
-    outerArr[i].push(value);
+    outerArr[i].unshift(value);
   }
 
   const tr = outerArr.map((tr)=> {
